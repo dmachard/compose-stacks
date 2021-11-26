@@ -1,0 +1,23 @@
+version: "3.4"
+
+services:
+  
+  dnscollector:
+    image: dmachard/go-dnscollector:v0.11.0
+    volumes:
+      - ${APP_CONFIG}/dnscollector/config.yml:/etc/dnscollector/config.yml
+      - ${COLLECTOR_DATA}/:/var/dnscollector/
+
+  dnsdist:
+    image: powerdns/dnsdist-17
+    volumes:
+      - ${APP_CONFIG}/dnsdist/dnsdist.lua:/etc/dnsdist/conf.d/dnsdist.conf
+    ports:
+      - mode: host
+        protocol: udp
+        published: 53
+        target: 53
+      - mode: host
+        protocol: tcp
+        published: 53
+        target: 53
