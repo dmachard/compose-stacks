@@ -4,15 +4,28 @@ services:
   
   freshrss:
     image: freshrss/freshrss:1.18.1
+    
     volumes:
     - ${DOCKER_DATA}/freshrss-data:/var/www/FreshRSS/data
     - ${DOCKER_DATA}/freshrss-extensions:/var/www/FreshRSS/extensions
-    ports:
-    - "9090:80/tcp"
+
     environment:
     - PUID=1000
     - PGID=1000
     - CRON_MIN=4,34
     - TZ=Europe/Paris
+    
+    networks:
+      - traefik-public
+      
     deploy:
       replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.freshrss.entrypoints=http
+        - traefik.http.routers.freshrss.rule=Host(`freshrss.${DOMAIN}`)
+        - traefik.http.services.freshrss.loadbalancer.server.port=80
+        
+networks:
+  traefik-public:
+    external: true
