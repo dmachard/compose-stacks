@@ -5,7 +5,7 @@ A collection of docker compose for docker swarm
 - [dnsdist-dnscollector](./dnsdist-dnscollector)
 - [freshrss](./freshrss)
 - [traefik](./traefik)
-
+- [prometheus-grafana](./prometheus-grafana)
 
 # Traefik
 
