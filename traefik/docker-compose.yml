@@ -18,10 +18,21 @@ services:
         constraints: [node.role == manager]
       labels:
         - traefik.enable=true
-        - traefik.http.routers.traefik.entrypoints=http
-        - traefik.http.routers.traefik.rule=Host(`traefik.${DOMAIN}`)
-        - traefik.http.routers.traefik.service=api@internal
-        - traefik.http.services.traefik.loadbalancer.server.port=8080
+        - traefik.http.middlewares.home-auth.basicauth.users=${USERNAME}:${HASHED_PASSWORD}
+        - traefik.http.middlewares.https-redirect.redirectscheme.scheme=https
+        - traefik.http.middlewares.https-redirect.redirectscheme.permanent=true
+        
+        - traefik.http.routers.traefik-http.rule=Host(`traefik.${DOMAIN}`)
+        - traefik.http.routers.traefik-http.entrypoints=http
+        - traefik.http.routers.traefik-http.middlewares=https-redirect
+        
+        - traefik.http.routers.traefik-https.entrypoints=https
+        - traefik.http.routers.traefik-https.rule=Host(`traefik.${DOMAIN}`)
+        - traefik.http.routers.traefik-https.service=api@internal
+        - traefik.http.routers.traefik-https.middlewares=home-auth
+        - traefik.http.routers.traefik-https.tls.certresolver=pkiaas
+        
+        - traefik.http.services.traefik-https.loadbalancer.server.port=8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ${DOCKER_DATA}/certificates:/certificates
@@ -31,6 +42,9 @@ services:
       - --providers.docker.exposedbydefault=false
       - --entrypoints.http.address=:80
       - --entrypoints.https.address=:443
+      - --certificatesresolvers.pkiaas.acme.httpChallenge.entrypoint=http
+      - --certificatesresolvers.pkiaas.acme.email=${EMAIL}
+      - --certificatesresolvers.pkiaas.acme.storage=/certificates/acme.json
       - --accesslog
       - --log
       - --api
