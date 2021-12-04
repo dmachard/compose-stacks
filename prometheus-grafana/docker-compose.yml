@@ -16,6 +16,7 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention.time=365d'
+      - '--web.enable-lifecycle'
     
   grafana:
     image: grafana/grafana:8.2.6
@@ -38,5 +39,8 @@ services:
       - "9115:9115/tcp"
     deploy:
       replicas: 1
+      placement:
+        constraints:
+         - node.labels.monitor == true
     volumes:
     - ${APP_CONFIG}/blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml
