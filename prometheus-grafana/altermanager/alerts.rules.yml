@@ -1,0 +1,17 @@
+global:
+  resolve_timeout: 5m
+
+route:
+ group_by: [ 'altername' ]
+ receiver: email-me
+
+receivers:
+- name: 'email-me'
+  email_configs:
+  - to: '************'
+    from: '************'
+    smarthost: smtp.gmail.com:587
+    send_resolved: true
+    auth_username: '************'
+    auth_identity: '************'
+    auth_password: '************'

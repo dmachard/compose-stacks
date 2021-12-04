@@ -1,0 +1,39 @@
+groups:
+- name: Monitoring Alerts
+  rules:
+  - alert: BlackboxSslCertificateWillExpireSoon
+    expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 30
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      summary: Blackbox SSL certificate will expire soon (instance {{ $labels.instance }})
+      description: "SSL certificate expires in 30 days\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+  
+  - alert: BlackboxSslCertificateWillExpireSoon
+    expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 3
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Blackbox SSL certificate will expire soon (instance {{ $labels.instance }})
+      description: "SSL certificate expires in 3 days\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+
+  - alert: OutOfMemory
+    expr: (node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes * 100 < 10
+    for: 15m
+    labels:
+      severity: critique
+    annotations:
+      identifier: "{{ $labels.instance }}"
+      summary: "Out of memory (instance {{ $labels.instance }})"
+      description: "<!channel>  L'hôte n'a presque plus de RAM (< 10% restant) VALUE = {{ $value }} LABELS: {{ $labels.job }} : {{ $labels.instance }}"
+
+  - alert: BlackboxProbeFailed
+    expr: probe_success == 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Blackbox probe failed (instance {{ $labels.instance }})
+      description: "Probe failed\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
