@@ -47,3 +47,9 @@ mkdir /mnt/docker-data/prometheus-data
 cd prometheus-grafana/
 sudo docker stack deploy -c docker-compose.yml --env-file .env monitoring
 ```
+
+Grafana is available at http://<swarmip>:3000
+Prometheus is available at http://<swarmip>:9090
+AlertManager is available at http://<swarmip>:9093
+Blackbox Exporter is available at http://<swarmip>:9115
+
