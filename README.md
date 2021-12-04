@@ -6,13 +6,15 @@ A collection of docker compose for docker swarm
 - [freshrss](./freshrss)
 - [traefik](./traefik)
 - [prometheus-grafana](./prometheus-grafana)
+- [portainer-agent](./portainer-agent)
 
 # Traefik
 
 ```bash
 docker network create --driver=overlay traefik-public
 mkdir /mnt/docker-data/certificates/
-sudo docker stack deploy -c ./traefik/docker-compose.yml --env-file ./traefik/.env rp
+cd traefik/
+sudo docker stack deploy -c docker-compose.yml --env-file .env rp
 ```
 
 The dashboard is available at http://traefik.<your_domain>.
@@ -22,7 +24,8 @@ The dashboard is available at http://traefik.<your_domain>.
 ```bash
 mkdir /mnt/docker-data/freshrss-data
 mkdir /mnt/docker-data/freshrss-extensions
-sudo docker stack deploy -c ./freshrss/docker-compose.yml rss
+cd freshrss/
+sudo docker stack deploy -c docker-compose.yml --env-file .env  rss
 ```
 
 Freshrss is available at http://freshrss.<your_domain>.
@@ -32,5 +35,15 @@ Freshrss is available at http://freshrss.<your_domain>.
 
 ```bash
 mkdir /mnt/docker-data/dnstap
-sudo docker stack deploy -c ./dnsdist-dnscollector/docker-compose.yml dns
+cd dnsdist-dnscollector/
+sudo docker stack deploy -c ./docker-compose.yml --env-file .env dns
+```
+
+# Prometheus and Grafana
+
+```bash
+mkdir /mnt/docker-data/grafana-data
+mkdir /mnt/docker-data/prometheus-data
+cd prometheus-grafana/
+sudo docker stack deploy -c docker-compose.yml --env-file .env monitoring
 ```
