@@ -12,6 +12,7 @@ services:
     volumes:
       - ${PROMETHEUS_DATA}:/prometheus
       - ${APP_CONFIG}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ${APP_CONFIG}/alertmanager/alerts.rules.yml:/alertmanager/alert.rules/alerts.rules.yml
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -44,3 +45,15 @@ services:
          - node.labels.monitor == true
     volumes:
     - ${APP_CONFIG}/blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml
+
+  alertmanager:
+    image: prom/alertmanager:v0.23.0
+    ports:
+      - "9093:9093/tcp"
+    deploy:
+      replicas: 1
+    volumes:
+      - ${APP_CONFIG}/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--log.level=debug'
