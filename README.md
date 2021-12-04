@@ -8,6 +8,13 @@ A collection of docker compose for docker swarm
 - [prometheus-grafana](./prometheus-grafana)
 - [portainer-agent](./portainer-agent)
 
+# Portainer
+
+```bash
+cd portainer-agent/
+sudo docker stack deploy -c docker-compose.yml swarmviz
+```
+
 # Traefik
 
 ```bash
@@ -36,7 +43,7 @@ Freshrss is available at http://freshrss.<your_domain>.
 ```bash
 mkdir /mnt/docker-data/dnstap
 cd dnsdist-dnscollector/
-sudo docker stack deploy -c ./docker-compose.yml --env-file .env dns
+sudo docker stack deploy -c docker-compose.yml --env-file .env dns
 ```
 
 # Prometheus and Grafana
