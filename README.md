@@ -40,6 +40,12 @@ Freshrss is available at http://freshrss.<your_domain>.
 
 # Local DNS
 
+Create the overlay network 
+
+```bash
+docker network create --driver=overlay monitoring
+```
+
 ```bash
 mkdir /mnt/docker-data/dnstap
 cd dnsdist-dnscollector/
@@ -47,6 +53,12 @@ sudo docker stack deploy -c docker-compose.yml --env-file .env dns
 ```
 
 # Prometheus and Grafana
+
+Create the overlay network 
+
+```bash
+docker network create --driver=overlay monitoring
+```
 
 ```bash
 mkdir /mnt/docker-data/grafana-data

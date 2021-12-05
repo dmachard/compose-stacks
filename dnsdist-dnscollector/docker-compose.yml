@@ -4,12 +4,16 @@ services:
   
   dnscollector:
     image: dmachard/go-dnscollector:v0.11.0
+    networks:
+      - monitoring
     volumes:
       - ${APP_CONFIG}/dnscollector/config.yml:/etc/dnscollector/config.yml
       - ${COLLECTOR_DATA}/:/var/dnscollector/
 
   dnsdist:
     image: powerdns/dnsdist-17
+    networks:
+      - monitoring
     volumes:
       - ${APP_CONFIG}/dnsdist/dnsdist.lua:/etc/dnsdist/conf.d/dnsdist.conf
     ports:
@@ -21,3 +25,7 @@ services:
         protocol: tcp
         published: 53
         target: 53
+
+networks:
+  monitoring:
+    external: true
