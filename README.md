@@ -7,6 +7,16 @@ A collection of docker compose for docker swarm
 - [traefik](./traefik)
 - [prometheus-grafana](./prometheus-grafana)
 - [portainer-agent](./portainer-agent)
+- [influxdb](./influxdb)
+
+# InfluxDB
+
+```bash
+mkdir /mnt/docker-data/influxdb-storage
+mkdir /mnt/docker-data/influxdb
+cd influxdb/
+sudo docker stack deploy -c docker-compose.yml --env-file .env influxdb
+```
 
 # Portainer
 
