@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  influxdb:
+    image: influxdb:1.8.10
+    ports:
+      - "8086:8086"
+    networks:
+      - monitoring
+    environment:
+      - INFLUXDB_DB=db0
+      - INFLUXDB_ADMIN_USER=${INFLUXDB_USERNAME}
+      - INFLUXDB_ADMIN_PASSWORD=${INFLUXDB_PASSWORD}
+    volumes:
+      - ${INFLUXDB_DATA}:/var/lib/influxdb
+      
+  chronograf:
+    image: chronograf:1.9.1
+    ports:
+      - "8888:8888"
+    networks:
+      - monitoring
+    volumes:
+      - ${GHRONOGRAF_DATA}:/var/lib/chronograf
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_USERNAME=${INFLUXDB_USERNAME}
+      - INFLUXDB_PASSWORD=${INFLUXDB_PASSWORD}
+      
+
+networks:
+  monitoring:
+    external: true

@@ -7,16 +7,7 @@ A collection of docker compose for docker swarm
 - [traefik](./traefik)
 - [prometheus-grafana](./prometheus-grafana)
 - [portainer-agent](./portainer-agent)
-- [influxdb](./influxdb)
-
-# InfluxDB
-
-```bash
-mkdir /mnt/docker-data/influxdb-storage
-mkdir /mnt/docker-data/influxdb
-cd influxdb/
-sudo docker stack deploy -c docker-compose.yml --env-file .env influxdb
-```
+- [influxdb-ghronograf](./influxdb-ghronograf)
 
 # Portainer
 
@@ -82,3 +73,21 @@ Prometheus is available at http://<swarmip>:9090
 AlertManager is available at http://<swarmip>:9093
 Blackbox Exporter is available at http://<swarmip>:9115
 
+
+# InfluxDB and Ghronograf
+
+Create the overlay network 
+
+```bash
+docker network create --driver=overlay monitoring
+```
+
+```bash
+mkdir /mnt/docker-data/influxdb-storage
+mkdir /mnt/docker-data/ghronograf-storage
+cd influxdb-ghronograf/
+sudo docker stack deploy -c docker-compose.yml --env-file .env influxdb
+```
+
+Ghronograf is available at http://<swarmip>:8888
+InfluxDB is available at http://<swarmip>:8086
