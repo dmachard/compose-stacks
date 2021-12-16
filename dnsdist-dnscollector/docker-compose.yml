@@ -3,7 +3,9 @@ version: "3.4"
 services:
   
   dnscollector:
-    image: dmachard/go-dnscollector:v0.11.0
+    image: dmachard/go-dnscollector:v0.13.0
+    environment:
+      - "TZ=Europe/Paris"
     networks:
       - monitoring
     volumes:
@@ -11,7 +13,9 @@ services:
       - ${COLLECTOR_DATA}/:/var/dnscollector/
 
   dnsdist:
-    image: powerdns/dnsdist-17
+    image: powerdns/dnsdist-17:1.7.0-beta2
+    environment:
+      - "TZ=Europe/Paris"
     networks:
       - monitoring
     volumes:

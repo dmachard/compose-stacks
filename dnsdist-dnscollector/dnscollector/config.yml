@@ -9,7 +9,14 @@ collectors:
 
 loggers:
   stdout:
-    enable: false  
+    enable: false 
+    
   logfile:
     enable: true
     file-path:  /var/dnscollector/dnstap.log 
+
+  lokiclient:
+    enable: true
+    server-url: "http://loki:3100/loki/api/v1/push"
+    job-name: "dnscollector"
+    text-format: "localtime identity qr queryip family protocol qname qtype rcode"
