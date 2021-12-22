@@ -1,7 +1,6 @@
-version: "3.4"
+version: "3.8"
 
 services:
-  
   dnscollector:
     image: dmachard/go-dnscollector:v0.13.0
     environment:
@@ -12,14 +11,8 @@ services:
       - ${APP_CONFIG}/dnscollector/config.yml:/etc/dnscollector/config.yml
       - ${COLLECTOR_DATA}/:/var/dnscollector/
 
-  dnsdist:
-    image: powerdns/dnsdist-17:1.7.0-beta2
-    environment:
-      - "TZ=Europe/Paris"
-    networks:
-      - monitoring
-    volumes:
-      - ${APP_CONFIG}/dnsdist/dnsdist.lua:/etc/dnsdist/conf.d/dnsdist.conf
+  pdns:
+    image: powerdns/pdns-auth-45:4.5.2
     ports:
       - mode: host
         protocol: udp
@@ -29,6 +22,40 @@ services:
         protocol: tcp
         published: 53
         target: 53
+    user: "1000:1000"
+    volumes:
+      - ${APP_CONFIG}/pdns/pdns.conf:/etc/powerdns/pdns.conf
+      - ${PDNS_STORAGE}/run:/var/run/pdns
+      - ${PDNS_STORAGE}/db:/var/lib/powerdns
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+         - node.labels.monitor == true
+
+      
+  dnsdist:
+    image: powerdns/dnsdist-17:1.7.0-rc1
+    volumes:
+      - ${APP_CONFIG}/dnsdist/dnsdist.lua:/etc/dnsdist/conf.d/dnsdist.conf
+    environment:
+      - "TZ=Europe/Paris"
+    ports:
+      - mode: host
+        protocol: udp
+        published: 53
+        target: 53
+      - mode: host
+        protocol: tcp
+        published: 53
+        target: 53
+    networks:
+      - monitoring
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+         - node.labels.dns == true
 
 networks:
   monitoring:
