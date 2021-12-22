@@ -97,6 +97,7 @@ Create storage folders
 ```bash
 mkdir /mnt/docker-data/grafana-data
 mkdir /mnt/docker-data/prometheus-data
+mkdir /mnt/docker-data/loki-storage
 ```
 
 Start the stack
