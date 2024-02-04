@@ -2,6 +2,9 @@
 
 A collection of docker compose for docker swarm
 
+- [powerdns-recursor](./powerdns-recursor)
+- [unbound](./unbound)
+- [syslog-ng](./syslog-ng)
 - [dnsdist-dnscollector](./dnsdist-dnscollector)
 - [freshrss](./freshrss)
 - [traefik](./traefik)
@@ -9,7 +12,15 @@ A collection of docker compose for docker swarm
 - [portainer-agent](./portainer-agent)
 - [influxdb-ghronograf](./influxdb-ghronograf)
 
-# Portainer
+## Syslog-ng
+
+Create folder
+
+```bash
+mkdir ./log
+```
+
+## Portainer
 
 Start the stack
 
@@ -18,9 +29,9 @@ cd portainer-agent/
 sudo docker stack deploy -c docker-compose.yml swarmviz
 ```
 
-# Traefik
+## Traefik
 
-Create the overlay network 
+Create the overlay network
 
 ```bash
 docker network create --driver=overlay traefik-public
@@ -41,7 +52,7 @@ sudo docker stack deploy -c docker-compose.yml --env-file .env rp
 
 The dashboard is available at http://traefik.<your_domain>.
 
-# Freshrss
+## Freshrss
 
 Create storage folders
 
@@ -59,10 +70,9 @@ sudo docker stack deploy -c docker-compose.yml --env-file .env  rss
 
 Freshrss is available at http://freshrss.<your_domain>.
 
+## Local DNS
 
-# Local DNS
-
-Create the overlay network 
+Create the overlay network
 
 ```bash
 docker network create --driver=overlay monitoring
@@ -84,9 +94,9 @@ cd dnsdist-dnscollector/
 sudo docker stack deploy -c docker-compose.yml --env-file .env dns
 ```
 
-# Prometheus and Grafana
+## Prometheus and Grafana
 
-Create the overlay network 
+Create the overlay network
 
 ```bash
 docker network create --driver=overlay monitoring
@@ -112,10 +122,9 @@ Prometheus is available at http://<swarmip>:9090
 AlertManager is available at http://<swarmip>:9093
 Blackbox Exporter is available at http://<swarmip>:9115
 
+## InfluxDB and Ghronograf
 
-# InfluxDB and Ghronograf
-
-Create the overlay network 
+Create the overlay network
 
 ```bash
 docker network create --driver=overlay monitoring
