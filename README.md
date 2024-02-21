@@ -2,6 +2,7 @@
 
 A collection of docker compose for docker swarm
 
+- [bind9-dnscollector](./bind9-dnscollector)
 - [powerdns-recursor](./powerdns-recursor)
 - [unbound](./unbound)
 - [syslog-ng](./syslog-ng)
@@ -11,6 +12,15 @@ A collection of docker compose for docker swarm
 - [prometheus-grafana](./prometheus-grafana)
 - [portainer-agent](./portainer-agent)
 - [influxdb-ghronograf](./influxdb-ghronograf)
+
+## Bind9 with DNScollector
+
+Create folder
+
+```bash
+mkdir ./run
+sudo docker compose up -d
+```
 
 ## Syslog-ng
 

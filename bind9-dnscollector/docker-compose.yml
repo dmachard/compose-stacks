@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  bind9:
+    container_name: bind9
+    image: dmachard/bind9:9.18.24-r1
+    volumes:
+      - ./conf:/etc/bind/
+      - ./run/dnstap.sock:/var/run/dnstap.sock
+    ports:
+      - "5354:53/udp"
+      - "5354:53/tcp"
+    depends_on:
+      - dnscollector
+    restart: always
+
+  dnscollector:
+    container_name: dnscollector
+    image: dmachard/go-dnscollector:v0.40.2
+    volumes:
+      - "./conf/dnscollector.conf:/etc/dnscollector/config.yml"
+      - "./run:/var/dnscollector"
+    restart: always
