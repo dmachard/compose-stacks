@@ -1,0 +1,12 @@
+$TTL 2h;
+$ORIGIN domain.example.com.
+@               SOA whitelist.example.com. admin.example.com ( 1 12h 15m 3w 2h)
+                NS whitelist.example.com.  
+; begin RPZ RR definitions
+
+; QNAME Trigger PASSTHRU Action
+; typically only used for bypass
+www.apple.com        CNAME rpz-passthru.
+
+; this will kill any name servers
+*  CNAME .

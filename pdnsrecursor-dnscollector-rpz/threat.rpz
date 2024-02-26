@@ -1,0 +1,7 @@
+$TTL 2h;
+$ORIGIN domain.example.com.
+@               SOA threat.example.com. admin.example.com ( 1 12h 15m 3w 2h)
+                NS threat.example.com.  
+; begin RPZ RR definitions
+
+www.googleadclicks.com        A 127.0.0.1

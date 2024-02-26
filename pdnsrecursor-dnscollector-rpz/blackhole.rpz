@@ -1,0 +1,9 @@
+$TTL 2h;
+$ORIGIN domain.example.com.
+@               SOA blackhole.example.com. admin.example.com ( 1 12h 15m 3w 2h)
+                NS blackhole.example.com.  
+; begin RPZ RR definitions
+
+google.com        A 127.0.0.1
+*.google.com      A 127.0.0.1
+

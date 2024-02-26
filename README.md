@@ -7,6 +7,7 @@ A collection of docker compose for docker swarm
 - [unbound](./unbound)
 - [syslog-ng](./syslog-ng)
 - [dnsdist-dnscollector](./dnsdist-dnscollector)
+- [pdnsrecursor-dnscollector-rpz](./pdnsrecursor-dnscollector-rpz)
 - [freshrss](./freshrss)
 - [traefik](./traefik)
 - [prometheus-grafana](./prometheus-grafana)

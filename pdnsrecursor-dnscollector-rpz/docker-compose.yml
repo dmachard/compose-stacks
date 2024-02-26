@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  pdnsrec_rpz:
+    image: powerdns/pdns-recursor-49:4.9.3
+    container_name: rpz
+    user: root:root
+    volumes:
+      - ./recursor.lua:/etc/powerdns/recursor.lua
+      - ./recursor.conf:/etc/powerdns/recursor.conf
+      - ./recursor-custom.conf:/etc/powerdns/recursor.d/custom.conf
+      - ./whitelist.rpz:/etc/powerdns/whitelist.rpz
+      - ./threat.rpz:/etc/powerdns/threat.rpz
+      - ./blackhole.rpz:/etc/powerdns/blackhole.rpz
+    network_mode: host
+    restart: unless-stopped
+
+  dnscollector:
+    container_name: dnscollector
+    image: dmachard/go-dnscollector:v0.42.0-alpha1
+    volumes:
+      - "./dnscollector.conf:/etc/dnscollector/config.yml"
+    network_mode: host
+    restart: always
